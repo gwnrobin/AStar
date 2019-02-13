@@ -7,13 +7,14 @@ public class SetPath : MonoBehaviour
     IAStarNode end;
 
     bool setStart = true;
+    bool clicked = false;
 
     void Update()
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !clicked)
         {
             if (Physics.Raycast(ray, out hit))
             {
@@ -31,6 +32,11 @@ public class SetPath : MonoBehaviour
                     setStart = !setStart;
                 }
             }
+            clicked = true;
+        }
+        else
+        {
+            clicked = false;
         }
     } 
 

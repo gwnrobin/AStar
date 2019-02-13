@@ -4,18 +4,27 @@ using System.Collections.Generic;
 
 public class AStarNode : MonoBehaviour, IAStarNode
 {
-    public Node nodeData;
+    private Node nodeData;
 
     void Start()
     {
         GetComponent<Renderer>().material.SetTexture("_MainTex", nodeData.texture);
     }
 
+    public void SetNodeData(Node Data)
+    {
+        nodeData = Data;
+    }
+
     public IEnumerable<IAStarNode> Neighbours
     {
+        set
+        {
+            Neighbours = value;
+        }
         get
         {
-            throw new System.NotImplementedException();
+            return Neighbours;
         }
     }
 

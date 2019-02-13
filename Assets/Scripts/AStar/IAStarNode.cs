@@ -14,7 +14,8 @@ namespace Pathing
 		// the neighbours property returns an enumeration of all the nodes adjacent to this node
 		IEnumerable<IAStarNode>	Neighbours
 		{
-			get;
+            set;
+            get;
 		}
 	
 		// this function should calculate the exact cost of travelling from this node to "neighbour".
