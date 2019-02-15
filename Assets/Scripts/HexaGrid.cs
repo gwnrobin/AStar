@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class HexaGrid : MonoBehaviour
 {
-    public float gridWidth = 2;
-    public float gridHeight = 2;
+    public int gridWidth = 2;
+    public int gridHeight = 2;
+
     [SerializeField]
     private List<Node> nodes = new List<Node>();
-
-    private IAStarNode[,] hexagonGrid = new IAStarNode[gridWidth, gridHeight];
-
-    //List<IAStarNode[,]> hexagonGrid = new List<IAStarNode[,]>();
 
     [SerializeField]
     private GameObject hexagon;
 
-    
+    public IAStarNode[,] hexagonTiles;
 
     float hexWidth;
     float hexHeight;
@@ -25,16 +22,17 @@ public class HexaGrid : MonoBehaviour
 
     public void MakeGrid()
     {
+        hexagonTiles = new IAStarNode[gridWidth, gridHeight];
         foreach (Transform child in transform)
         {
             GameObject.Destroy(child.gameObject);
         }
-        CalcHexagonSize();
+        GetHexagonSize();
         CalcStartPos();
         CreateGrid();
     }
 
-    void CalcHexagonSize()
+    void GetHexagonSize()
     {
         hexWidth = hexagon.GetComponent<Renderer>().bounds.size.x;
         hexHeight = hexagon.GetComponent<Renderer>().bounds.size.y;
@@ -73,22 +71,30 @@ public class HexaGrid : MonoBehaviour
             for (int y = 0; y < gridHeight; y++)
             {
                 GameObject hex = Instantiate(hexagon);
-                Vector3 gridPos = new Vector3(x, y, 0); 
+                Vector3 gridPos = new Vector3(x, y, 0);
                 hex.transform.position = CalcWorldPos(gridPos);
                 hex.transform.parent = this.transform;
                 hex.name = "Hexagon " + x + "/" + y;
                 hex.GetComponent<AStarNode>().SetNodeData(nodes[Random.Range(0, nodes.Count)]);
 
-                hex.GetComponent<AStarNode>().Neighbours =
+                hexagonTiles[x, y] = hex.GetComponent<IAStarNode>();
+            }
+        }
+        IAStarNode[] hexagonNeighbours;
+        for (int x = 0; x < gridWidth; x++)
+        {
+            for (int y = 0; y < gridHeight; y++)
+            {
+                hexagonTiles[x, y].Neighbours = hexagonNeighbours[];
             }
         }
     }
 
-    public void SetGridWidth(float gridWidth)
+    public void SetGridWidth(int gridWidth)
     {
         this.gridWidth = gridWidth;
     }
-    public void SetGridHeight(float gridHeight)
+    public void SetGridHeight(int gridHeight)
     {
         this.gridHeight = gridHeight;
     }
